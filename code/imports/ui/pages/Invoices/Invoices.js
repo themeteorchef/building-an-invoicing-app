@@ -1,0 +1,70 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Table, Label, Alert } from 'react-bootstrap';
+import { monthDayYear } from '@cleverbeagle/dates';
+import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
+import InvoicesCollection from '../../../api/Invoices/Invoices';
+import Loading from '../../components/Loading/Loading';
+import centsToDollars from '../../../modules/cents-to-dollars';
+
+import './Invoices.scss';
+
+const getInvoiceLabel = (status) => {
+  const labelClass = {
+    draft: 'default',
+    sent: 'primary',
+    paid: 'success',
+    overdue: 'danger',
+  }[status];
+
+  return (<Label bsStyle={labelClass[status]}>{status}</Label>);
+};
+
+const Invoices = ({ loading, invoices, match, history }) => (!loading ? (
+  <div className="Invoices">
+    <div className="page-header clearfix">
+      <h4 className="pull-left">Invoices</h4>
+      <Link className="btn btn-success pull-right" to={`${match.url}/new`}>New Invoice</Link>
+    </div>
+    {invoices.length ? <Table condensed responsive>
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Client/Subject</th>
+          <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {invoices.map(({ _id, status, createdAt, client, subject, total }) => (
+          <tr key={_id} onClick={() => history.push(`${match.url}/${_id}`)}>
+            <td>{getInvoiceLabel(status)}</td>
+            <td>{monthDayYear(createdAt)}</td>
+            <td>
+              <strong>{client}</strong>
+              <p>{subject}</p>
+            </td>
+            <td>{centsToDollars(total)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table> : <Alert bsStyle="warning">No invoices yet!</Alert>}
+  </div>
+) : <Loading />);
+
+Invoices.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  invoices: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+export default createContainer(() => {
+  const subscription = Meteor.subscribe('invoices');
+  return {
+    loading: !subscription.ready(),
+    documents: InvoicesCollection.find().fetch(),
+  };
+}, Invoices);
