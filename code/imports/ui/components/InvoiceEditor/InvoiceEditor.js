@@ -133,7 +133,7 @@ class InvoiceEditor extends React.Component {
               <SelectRecipient
                 name="recipient"
                 value={this.state.recipient}
-                onSelect={({ value }) => this.setState({ recipient: value })}
+                onSelect={option => this.setState({ recipient: (option && option.value) || null })}
               />
             </FormGroup>
           </Col>
