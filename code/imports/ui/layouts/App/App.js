@@ -61,10 +61,6 @@ const App = props => (
           <Authenticated exact path="/recipients" component={Recipients} {...props} />
           <Authenticated exact path="/recipients/new" component={NewRecipient} {...props} />
           <Authenticated exact path="/recipients/:_id" component={EditRecipient} {...props} />
-          <Authenticated exact path="/documents" component={Documents} {...props} />
-          <Authenticated exact path="/documents/new" component={NewDocument} {...props} />
-          <Authenticated exact path="/documents/:_id" component={ViewDocument} {...props} />
-          <Authenticated exact path="/documents/:_id/edit" component={EditDocument} {...props} />
           <Authenticated exact path="/profile" component={Profile} {...props} />
           <Public path="/signup" component={Signup} {...props} />
           <Public path="/login" component={Login} {...props} />

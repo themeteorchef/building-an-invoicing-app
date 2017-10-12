@@ -36,7 +36,7 @@ const InvoicesSchema = new SimpleSchema({
   },
   status: {
     type: String,
-    allowedValues: ['draft', 'sent', 'paid', 'overdue'],
+    allowedValues: ['draft', 'sent', 'paid'],
     label: 'The current status of this invoice.',
   },
   owner: {
