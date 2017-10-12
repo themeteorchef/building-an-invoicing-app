@@ -6,7 +6,7 @@ import InvoiceEditor from '../../components/InvoiceEditor/InvoiceEditor';
 const NewInvoice = ({ history }) => (
   <div className="NewInvoice">
     <Row>
-      <Col xs={12} sm={8} smOffset={2}>
+      <Col xs={12} sm={10} smOffset={1}>
         <h4 className="page-header">Create a New Invoice</h4>
         <InvoiceEditor history={history} />
       </Col>

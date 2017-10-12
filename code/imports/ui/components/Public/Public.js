@@ -9,7 +9,7 @@ const Public = ({ loggingIn, authenticated, component, path, exact, ...rest }) =
     render={props => (
       !authenticated ?
         (React.createElement(component, { ...props, ...rest, loggingIn, authenticated })) :
-        (<Redirect to="/documents" />)
+        (<Redirect to="/invoices" />)
     )}
   />
 );

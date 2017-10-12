@@ -20,7 +20,7 @@ Meteor.methods({
     const isOwner = Invoices.findOne({ _id: invoiceId, owner: this.userId });
 
     if (isOwner) {
-      Invoices.update({ ...invoice, owner: this.userId });
+      Invoices.update(invoiceId, { $set: invoice });
       return invoiceId;
     }
 

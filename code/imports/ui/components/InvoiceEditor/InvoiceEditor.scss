@@ -1,0 +1,56 @@
+@import '../../stylesheets/colors';
+
+.InvoiceEditor .list-group-item {
+  padding: 10px 20px;
+  position: relative;
+
+  div[class^="col-"] {
+    padding: 0 5px;
+  }
+
+  .total {
+    text-align: right;
+    margin-top: 7px;
+    margin-right: 10px;
+  }
+
+  .remove-line-item {
+    border: 1px solid #ddd;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    margin-left: -41px;
+    float: left;
+    padding: 4px 10px;
+    color: $danger;
+    font-size: 18px;
+    border-radius: 3px 0 0 3px;
+  }
+}
+
+.InvoiceEditor .InvoiceTotal {
+  text-align: right;
+
+  strong {
+    margin-right: 10px;
+  }
+}
+
+.InvoiceEditor .AddItem i {
+  margin-right: 3px;
+}
+
+.InvoiceEditor .InvoiceNotes {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin: 20px 0;
+  padding: 20px 0;
+
+  .panel {
+    margin: 0;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
+}

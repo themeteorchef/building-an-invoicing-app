@@ -22,10 +22,10 @@ const fetchRecipients = () =>
       options: recipients.map(({ _id, name }) => ({ value: _id, label: name })),
     }));
 
-const SelectRecipient = ({ value, onSelect }) => (
+const SelectRecipient = ({ name, value, onSelect }) => (
   <div className="SelectRecipient">
     <Select.Async
-      name="recipient"
+      name={name}
       value={value}
       onChange={onSelect}
       loadOptions={fetchRecipients}
@@ -33,8 +33,13 @@ const SelectRecipient = ({ value, onSelect }) => (
   </div>
 );
 
+SelectRecipient.defaultProps = {
+  value: null,
+};
+
 SelectRecipient.propTypes = {
-  value: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
 };
 

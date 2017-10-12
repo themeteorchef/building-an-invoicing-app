@@ -3,7 +3,7 @@ import { check } from 'meteor/check';
 import Invoices from '../Invoices';
 
 Meteor.publish('invoices', function invoices() {
-  return Invoices.find({ owner: this.userId });
+  return Invoices.find({ owner: this.userId }, { sort: { createdAt: -1 } });
 });
 
 Meteor.publish('invoices.view', function invoicesView(invoiceId) {

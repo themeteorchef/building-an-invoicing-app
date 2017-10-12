@@ -7,7 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
 import InvoicesCollection from '../../../api/Invoices/Invoices';
 import Loading from '../../components/Loading/Loading';
-import centsToDollars from '../../../modules/cents-to-dollars';
+import { formatAsCurrency, centsToDollars } from '../../../modules/currency-conversions';
 
 import './Invoices.scss';
 
@@ -28,25 +28,25 @@ const Invoices = ({ loading, invoices, match, history }) => (!loading ? (
       <h4 className="pull-left">Invoices</h4>
       <Link className="btn btn-success pull-right" to={`${match.url}/new`}>New Invoice</Link>
     </div>
-    {invoices.length ? <Table condensed responsive>
+    {invoices.length ? <Table hover responsive>
       <thead>
         <tr>
-          <th>Status</th>
+          <th className="text-center">Status</th>
           <th>Created</th>
           <th>Client/Subject</th>
-          <th>Total Amount</th>
+          <th className="text-center">Total Amount</th>
         </tr>
       </thead>
       <tbody>
         {invoices.map(({ _id, status, createdAt, client, subject, total }) => (
           <tr key={_id} onClick={() => history.push(`${match.url}/${_id}`)}>
-            <td>{getInvoiceLabel(status)}</td>
+            <td className="text-center">{getInvoiceLabel(status)}</td>
             <td>{monthDayYear(createdAt)}</td>
             <td>
               <strong>{client}</strong>
               <p>{subject}</p>
             </td>
-            <td>{centsToDollars(total)}</td>
+            <td className="text-center">{formatAsCurrency(centsToDollars(total))}</td>
           </tr>
         ))}
       </tbody>
@@ -65,6 +65,6 @@ export default createContainer(() => {
   const subscription = Meteor.subscribe('invoices');
   return {
     loading: !subscription.ready(),
-    documents: InvoicesCollection.find().fetch(),
+    invoices: InvoicesCollection.find().fetch(),
   };
 }, Invoices);

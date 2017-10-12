@@ -1,5 +1,4 @@
 import { Mongo } from 'meteor/mongo';
-import { Random } from 'meteor/random';
 import SimpleSchema from 'simpl-schema';
 
 const Invoices = new Mongo.Collection('Invoices');
@@ -48,7 +47,7 @@ const InvoicesSchema = new SimpleSchema({
     type: String,
     label: 'The number of this invoice.',
     autoValue() {
-      if (this.isInsert) return Invoices.find({ owner: this.userId }).count() + 1;
+      if (this.isInsert) return (Invoices.find({ owner: this.userId }).count() + 1).toString();
       return this.value;
     },
   },
@@ -117,6 +116,7 @@ const InvoicesSchema = new SimpleSchema({
   total: {
     type: Number,
     label: 'The total price of the invoice when it was sent in cents.',
+    optional: true,
   },
   notes: {
     type: String,
