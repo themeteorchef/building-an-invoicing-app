@@ -1,0 +1,33 @@
+@import '../../stylesheets/colors';
+
+.RecipientEditor textarea {
+  min-height: 100px;
+}
+
+.RecipientEditor .list-group-item {
+  padding: 10px 20px;
+  position: relative;
+
+  div[class^="col-"] {
+    padding: 0 5px;
+  }
+
+  .remove-contact {
+    border: 1px solid #ddd;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    margin-left: -36px;
+    float: left;
+    padding: 4px 10px;
+    color: $danger;
+    font-size: 18px;
+    border-radius: 3px 0 0 3px;
+  }
+}
+
+.RecipientEditor .Contacts {
+  border-bottom: 1px solid $gray-lighter;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}

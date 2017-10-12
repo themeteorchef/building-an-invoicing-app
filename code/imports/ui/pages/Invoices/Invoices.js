@@ -31,6 +31,7 @@ const Invoices = ({ loading, invoices, match, history }) => (!loading ? (
     {invoices.length ? <Table hover responsive>
       <thead>
         <tr>
+          <th />
           <th className="text-center">Status</th>
           <th>Created</th>
           <th>Client/Subject</th>
@@ -38,8 +39,9 @@ const Invoices = ({ loading, invoices, match, history }) => (!loading ? (
         </tr>
       </thead>
       <tbody>
-        {invoices.map(({ _id, status, createdAt, client, subject, total }) => (
+        {invoices.map(({ _id, number, status, createdAt, client, subject, total }) => (
           <tr key={_id} onClick={() => history.push(`${match.url}/${_id}`)}>
+            <td>#{number}</td>
             <td className="text-center">{getInvoiceLabel(status)}</td>
             <td>{monthDayYear(createdAt)}</td>
             <td>
