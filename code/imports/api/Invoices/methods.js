@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import Invoices from './Invoices';
 import rateLimit from '../../modules/rate-limit';
-import totalLineItems from '../../modules/total-line-items';
 
 Meteor.methods({
   'invoices.insert': function invoicesInsert(invoice) {
@@ -11,7 +10,7 @@ Meteor.methods({
       ...invoice,
       status: 'draft',
       owner: this.userId,
-      total: totalLineItems(invoice.lineItems),
+      total: invoice.lineItems.reduce((sum, item) => (sum + item.amount), 0),
     });
   },
   'invoices.update': function invoicesUpdate(invoice) {
