@@ -1,0 +1,10 @@
+Hey, {{firstName}}!
+
+{{senderName}} has sent you an invoice for {{invoiceTotal}}.
+
+To view the invoice and pay it, visit the URL below.
+
+[View Your Invoice]({{invoiceUrl}})
+
+Cheers,
+The BeagleBone Team

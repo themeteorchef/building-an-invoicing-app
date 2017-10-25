@@ -19,7 +19,7 @@ const getInvoiceLabel = (status) => {
     overdue: 'danger',
   }[status];
 
-  return (<Label bsStyle={labelClass[status]}>{status}</Label>);
+  return (<Label bsStyle={labelClass}>{status}</Label>);
 };
 
 const Invoices = ({ loading, invoices, match, history }) => (!loading ? (
@@ -67,6 +67,6 @@ export default createContainer(() => {
   const subscription = Meteor.subscribe('invoices');
   return {
     loading: !subscription.ready(),
-    invoices: InvoicesCollection.find().fetch(),
+    invoices: InvoicesCollection.find({}, { sort: { number: -1 } }).fetch(),
   };
 }, Invoices);

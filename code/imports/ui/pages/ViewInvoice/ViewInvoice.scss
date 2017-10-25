@@ -1,0 +1,54 @@
+@import '../../stylesheets/colors';
+
+.ViewInvoice .PayInvoice tfoot tr th {
+  padding-top: 20px;
+}
+
+.ViewInvoice .PayInvoice {
+  position: relative;
+
+  header {
+    margin-bottom: 40px;
+  }
+
+  header .header-block {
+    margin-bottom: 20px;
+  }
+
+  header .control-label {
+    margin-bottom: 10px;
+  }
+
+  header p {
+    margin-bottom: 5px;
+  }
+
+  header .mailing-address {
+    white-space: pre-line;
+    line-height: 22px;
+  }
+}
+
+.ViewInvoice .PayInvoice .Status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: rotate(5deg);
+  font-size: 24px;
+  text-transform: uppercase;
+  border: 2px dashed $gray-lighter;
+  padding: 10px 20px;
+  border-radius: 3px;
+  font-weight: bold;
+  display: inline-block;
+
+  &.sent {
+    color: $gray-light;
+    border-color: $gray-lighter;
+  }
+
+  &.paid {
+    color: $success;
+    border-color: $success;
+  }
+}

@@ -58,6 +58,7 @@ const App = props => (
           <Authenticated exact path="/invoices" component={Invoices} {...props} />
           <Authenticated exact path="/invoices/new" component={NewInvoice} {...props} />
           <Authenticated exact path="/invoices/:_id" component={ViewInvoice} {...props} />
+          <Route exact path="/invoices/:_id/pay" component={ViewInvoice} {...props} />
           <Authenticated exact path="/recipients" component={Recipients} {...props} />
           <Authenticated exact path="/recipients/new" component={NewRecipient} {...props} />
           <Authenticated exact path="/recipients/:_id" component={EditRecipient} {...props} />

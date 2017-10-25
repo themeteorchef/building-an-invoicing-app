@@ -38,6 +38,7 @@ class InvoiceEditor extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateLineItem = this.updateLineItem.bind(this);
     this.calculateInvoiceTotal = this.calculateInvoiceTotal.bind(this);
+    this.handleSendInvoice = this.handleSendInvoice.bind(this);
   }
 
   componentDidMount() {
@@ -87,6 +88,19 @@ class InvoiceEditor extends React.Component {
       total += (quantity * this.getAmountAsFloat(amount))
     ));
     return formatAsCurrency(total);
+  }
+
+  handleSendInvoice() {
+    if (confirm(`Send this invoice now? We\'ll send it to all of the conctacts of the specified recipient.`)) {
+      const { invoice } = this.props;
+      Meteor.call('invoices.send', invoice._id, (error) => {
+        if (error) {
+          Bert.alert(error.reason, 'danger');
+        } else {
+          Bert.alert('Invoice sent!', 'success');
+        }
+      });
+    }
   }
 
   handleSubmit() {
@@ -254,6 +268,9 @@ class InvoiceEditor extends React.Component {
         <Button disabled={this.state.lineItems.length === 0} type="submit" bsStyle="success">
           {invoice && invoice._id ? 'Save Changes' : 'Create Invoice'}
         </Button>
+        {invoice && invoice._id ? <Button disabled={this.state.lineItems.length === 0} onClick={this.handleSendInvoice} bsStyle="primary">
+          Send Invoice
+        </Button> : ''}
       </form>
     </div>);
   }
