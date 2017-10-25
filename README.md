@@ -1,4 +1,4 @@
-#### Tutorial: Building an Invoice App: Part Two
+#### Tutorial: Building an Invoicing App: Part Two
 
 In this three-part tutorial, we'll learn how to build a simple invoicing app that accepts payments via Stripe Checkout. Well also take a look generating PDF invoices and sending them to recipients as email attachments.
 
