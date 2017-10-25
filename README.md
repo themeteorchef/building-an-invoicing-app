@@ -1,14 +1,16 @@
-#### Tutorial: Building an Invoicing App
+#### Tutorial: Building an Invoice App: Part Two
 
 In this three-part tutorial, we'll learn how to build a simple invoicing app that accepts payments via Stripe Checkout. Well also take a look generating PDF invoices and sending them to recipients as email attachments.
 
-[Read this tutorial on The Meteor Chef](https://themeteorchef.com/tutorials/building-an-invoicing-app)  
+[Part One](https://themeteorchef.com/tutorials/building-an-invoicing-app)
+
+[Read this tutorial on The Meteor Chef](https://themeteorchef.com/tutorials/building-an-invoice-app-part-two)  
 
 [Download the source (.zip)](https://github.com/themeteorchef/building-an-invoicing-app/archive/master.zip)
 
 ---
 
-**Need help with this?** [Sign up for a Mentorship appointment](https://themeteorchef.com/mentorship?readme=building-an-invoicing-app) and get 1-on-1 help.
+**Need help with this?** [Sign up for a Mentorship appointment](https://themeteorchef.com/mentorship?readme=building-an-invoice-app-part-two) and get 1-on-1 help.
 
 ---
 
