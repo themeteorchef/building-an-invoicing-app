@@ -53,9 +53,6 @@ class InvoiceEditor extends React.Component {
         },
       },
       messages: {
-        recipient: {
-          required: 'Who are we sending this to?',
-        },
         due: {
           required: 'When is this due?',
         },
@@ -92,18 +89,11 @@ class InvoiceEditor extends React.Component {
 
   handleSendInvoice() {
     if (confirm(`Send this invoice now? We\'ll send it to all of the conctacts of the specified recipient.`)) {
-      const { invoice } = this.props;
-      Meteor.call('invoices.send', invoice._id, (error) => {
-        if (error) {
-          Bert.alert(error.reason, 'danger');
-        } else {
-          Bert.alert('Invoice sent!', 'success');
-        }
-      });
+      this.handleSubmit(true); // Pass true to toggle this as isSending.
     }
   }
 
-  handleSubmit() {
+  handleSubmit(isSending) {
     const { history } = this.props;
     const existingInvoice = this.props.invoice && this.props.invoice._id;
     const methodToCall = existingInvoice ? 'invoices.update' : 'invoices.insert';
@@ -120,6 +110,7 @@ class InvoiceEditor extends React.Component {
         };
       }),
       notes: this.notes.value.trim(),
+      isSending,
     };
 
     if (existingInvoice) invoice._id = existingInvoice;
@@ -130,7 +121,7 @@ class InvoiceEditor extends React.Component {
       } else {
         const confirmation = existingInvoice ? 'Invoice updated!' : 'Invoice created!';
         this.form.reset();
-        Bert.alert(confirmation, 'success');
+        Bert.alert(isSending ? 'Invoice sent!' : confirmation, 'success');
         history.push(`/invoices/${invoiceId}`);
       }
     });

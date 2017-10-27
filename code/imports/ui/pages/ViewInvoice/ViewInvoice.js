@@ -85,6 +85,10 @@ const ViewInvoice = ({ loading, history, invoice, recipient }) => (!loading ? (
                 </tr>
               </tfoot>
             </Table>
+            {invoice.notes ? <div className="InvoiceNotes">
+              <ControlLabel>Notes</ControlLabel>
+              <p>{invoice.notes}</p>
+            </div> : ''}
           </div>}
       </Col>
     </Row>
@@ -108,7 +112,7 @@ export default createContainer(({ match }) => {
 
   return {
     loading: !subscription.ready(),
-    invoice: Invoices.findOne(invoiceId),
+    invoice,
     recipient: invoice ? Recipients.findOne({ _id: invoice.recipientId }) : {},
   };
 }, ViewInvoice);

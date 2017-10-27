@@ -52,3 +52,15 @@
     border-color: $success;
   }
 }
+
+.ViewInvoice .PayInvoice .InvoiceNotes {
+  padding: 20px;
+  margin: 20px 0 40px;
+  border-radius: 3px;
+  color: $gray;
+  background: $gray-lighter;
+
+  p:last-child {
+    margin-bottom: 0px;
+  }
+}
