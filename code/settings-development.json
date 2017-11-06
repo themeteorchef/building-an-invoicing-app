@@ -1,5 +1,7 @@
 {
-  "public": {},
+  "public": {
+    "stripe": "pk_test_"
+  },
   "private": {
     "MAIL_URL": "",
     "OAuth": {
@@ -18,6 +20,7 @@
         "secret": "",
         "loginStyle": "popup"
       }
-    }
+    },
+    "stripe": "sk_test_"
   }
 }

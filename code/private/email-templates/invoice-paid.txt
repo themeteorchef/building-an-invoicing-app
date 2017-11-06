@@ -1,0 +1,10 @@
+Hey, {{firstName}}!
+
+This is a confirmation that invoice #{{invoiceNumber}} for {{invoiceTotal}} <strong>has been paid</strong>! We've attched a PDF copy of the invoice for your reccords.
+
+If you'd like to view the invoice online, visit the URL below.
+
+[View Invoice]({{invoiceUrl}})
+
+Cheers,
+The BeagleBone Team

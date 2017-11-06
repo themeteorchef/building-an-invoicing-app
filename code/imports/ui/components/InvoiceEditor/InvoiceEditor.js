@@ -130,139 +130,144 @@ class InvoiceEditor extends React.Component {
   render() {
     const { invoice } = this.props;
     return (<div className="InvoiceEditor">
-      <form ref={form => (this.form = form)} onSubmit={event => event.preventDefault()}>
-        <Row>
-          <Col xs={12} sm={6}>
+      <Row>
+        <Col xs={12} sm={10} smOffset={1}>
+          <h4 className="page-header">Invoice #{invoice && invoice.number}</h4>
+          <form ref={form => (this.form = form)} onSubmit={event => event.preventDefault()}>
+            <Row>
+              <Col xs={12} sm={6}>
+                <FormGroup>
+                  <ControlLabel>Recipient</ControlLabel>
+                  <SelectRecipient
+                    name="recipient"
+                    value={this.state.recipient}
+                    onSelect={option => this.setState({ recipient: (option && option.value) || null })}
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={12} sm={6}>
+                <FormGroup>
+                  <ControlLabel>Due Date</ControlLabel>
+                  <DateTimePicker
+                    value={this.state.due}
+                    dateFormat="MMMM Do, YYYY"
+                    timeFormat={false}
+                    inputProps={{ name: 'due' }}
+                    onChange={due => this.setState({ due })}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
             <FormGroup>
-              <ControlLabel>Recipient</ControlLabel>
-              <SelectRecipient
-                name="recipient"
-                value={this.state.recipient}
-                onSelect={option => this.setState({ recipient: (option && option.value) || null })}
+              <ControlLabel>Subject</ControlLabel>
+              <input
+                type="text"
+                className="form-control"
+                name="subject"
+                ref={subject => (this.subject = subject)}
+                defaultValue={invoice && invoice.subject}
+                placeholder="Wiring up MySQL database with GraphQL server"
               />
             </FormGroup>
-          </Col>
-          <Col xs={12} sm={6}>
             <FormGroup>
-              <ControlLabel>Due Date</ControlLabel>
-              <DateTimePicker
-                value={this.state.due}
-                dateFormat="MMMM Do, YYYY"
-                timeFormat={false}
-                inputProps={{ name: 'due' }}
-                onChange={due => this.setState({ due })}
-              />
+              <ControlLabel>Line Items</ControlLabel>
+              {this.state.lineItems.length > 0 ? <ListGroup className="LineItems">
+                {this.state.lineItems.map(({ _id, description, quantity, amount }) => (
+                  <ListGroupItem key={_id} className="clearfix">
+                    <Row>
+                      <Col xs={12} sm={6}>
+                        <button
+                          className="remove-line-item"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            const lineItems = [...this.state.lineItems].filter(item => item._id !== _id);
+                            this.setState({ lineItems });
+                          }}
+                        >
+                          <i className="fa fa-remove" />
+                        </button>
+                        <input
+                          type="text"
+                          name="description"
+                          className="form-control"
+                          value={description}
+                          placeholder="Write GraphQL schema"
+                          onChange={event => this.updateLineItem(event, _id)}
+                        />
+                      </Col>
+                      <Col xs={12} sm={2}>
+                        <input
+                          type="text"
+                          className="form-control text-center"
+                          name="quantity"
+                          value={quantity}
+                          onChange={event => this.updateLineItem(event, _id)}
+                        />
+                      </Col>
+                      <Col xs={12} sm={2}>
+                        <CurrencyInput
+                          type="text"
+                          name="amount"
+                          className="form-control text-center"
+                          ref={amountInput => this[`amount_${_id}`] = amountInput}
+                          prefix="$"
+                          value={this.getAmountAsFloat(amount)}
+                          onChangeEvent={event => this.updateLineItem(event, _id)}
+                        />
+                      </Col>
+                      <Col xs={12} sm={2}>
+                        <div className="total">
+                          <span>
+                            {calculateAndFormatTotal(quantity, this.getAmountAsFloat(amount))}
+                          </span>
+                        </div>
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
+                ))}
+              </ListGroup> : <Alert>{'You need to add at least one line item. Add an item by clicking "Add Item" below.'}</Alert>}
+              <Row>
+                <Col xs={6}>
+                  <Button
+                    bsStyle="default"
+                    className="AddItem"
+                    onClick={() => {
+                      const lineItems = [...this.state.lineItems];
+                      lineItems.push({ _id: Random.id(), description: '', quantity: 1, amount: 0 });
+                      this.setState({ lineItems });
+                    }}
+                  >
+                    <i className="fa fa-plus" /> Add Item
+                  </Button>
+                </Col>
+                <Col xs={6}>
+                  <p className="InvoiceTotal">
+                    <strong>Total</strong>
+                    <span>{this.calculateInvoiceTotal()}</span>
+                  </p>
+                </Col>
+              </Row>
             </FormGroup>
-          </Col>
-        </Row>
-        <FormGroup>
-          <ControlLabel>Subject</ControlLabel>
-          <input
-            type="text"
-            className="form-control"
-            name="subject"
-            ref={subject => (this.subject = subject)}
-            defaultValue={invoice && invoice.subject}
-            placeholder="Wiring up MySQL database with GraphQL server"
-          />
-        </FormGroup>
-        <FormGroup>
-          <ControlLabel>Line Items</ControlLabel>
-          {this.state.lineItems.length > 0 ? <ListGroup className="LineItems">
-            {this.state.lineItems.map(({ _id, description, quantity, amount }) => (
-              <ListGroupItem key={_id} className="clearfix">
-                <Row>
-                  <Col xs={12} sm={6}>
-                    <button
-                      className="remove-line-item"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        const lineItems = [...this.state.lineItems].filter(item => item._id !== _id);
-                        this.setState({ lineItems });
-                      }}
-                    >
-                      <i className="fa fa-remove" />
-                    </button>
-                    <input
-                      type="text"
-                      name="description"
-                      className="form-control"
-                      value={description}
-                      placeholder="Write GraphQL schema"
-                      onChange={event => this.updateLineItem(event, _id)}
-                    />
-                  </Col>
-                  <Col xs={12} sm={2}>
-                    <input
-                      type="text"
-                      className="form-control text-center"
-                      name="quantity"
-                      value={quantity}
-                      onChange={event => this.updateLineItem(event, _id)}
-                    />
-                  </Col>
-                  <Col xs={12} sm={2}>
-                    <CurrencyInput
-                      type="text"
-                      name="amount"
-                      className="form-control text-center"
-                      ref={amountInput => this[`amount_${_id}`] = amountInput}
-                      prefix="$"
-                      value={this.getAmountAsFloat(amount)}
-                      onChangeEvent={event => this.updateLineItem(event, _id)}
-                    />
-                  </Col>
-                  <Col xs={12} sm={2}>
-                    <div className="total">
-                      <span>
-                        {calculateAndFormatTotal(quantity, this.getAmountAsFloat(amount))}
-                      </span>
-                    </div>
-                  </Col>
-                </Row>
-              </ListGroupItem>
-            ))}
-          </ListGroup> : <Alert>{'You need to add at least one line item. Add an item by clicking "Add Item" below.'}</Alert>}
-          <Row>
-            <Col xs={6}>
-              <Button
-                bsStyle="default"
-                className="AddItem"
-                onClick={() => {
-                  const lineItems = [...this.state.lineItems];
-                  lineItems.push({ _id: Random.id(), description: '', quantity: 1, amount: 0 });
-                  this.setState({ lineItems });
-                }}
-              >
-                <i className="fa fa-plus" /> Add Item
-              </Button>
-            </Col>
-            <Col xs={6}>
-              <p className="InvoiceTotal">
-                <strong>Total</strong>
-                <span>{this.calculateInvoiceTotal()}</span>
-              </p>
-            </Col>
-          </Row>
-        </FormGroup>
-        <FormGroup className="InvoiceNotes">
-          <Panel>
-            <ControlLabel>Notes (optional, displayed on invoice)</ControlLabel>
-            <textarea
-              name="notes"
-              className="form-control"
-              defaultValue={invoice && invoice.notes}
-              ref={notes => (this.notes = notes)}
-            />
-          </Panel>
-        </FormGroup>
-        <Button disabled={this.state.lineItems.length === 0} type="submit" bsStyle="success">
-          {invoice && invoice._id ? 'Save Changes' : 'Create Invoice'}
-        </Button>
-        {invoice && invoice._id ? <Button disabled={this.state.lineItems.length === 0} onClick={this.handleSendInvoice} bsStyle="primary">
-          Send Invoice
-        </Button> : ''}
-      </form>
+            <FormGroup className="InvoiceNotes">
+              <Panel>
+                <ControlLabel>Notes (optional, displayed on invoice)</ControlLabel>
+                <textarea
+                  name="notes"
+                  className="form-control"
+                  defaultValue={invoice && invoice.notes}
+                  ref={notes => (this.notes = notes)}
+                />
+              </Panel>
+            </FormGroup>
+            <Button disabled={this.state.lineItems.length === 0} type="submit" bsStyle="success">
+              {invoice && invoice._id ? 'Save Changes' : 'Create Invoice'}
+            </Button>
+            {invoice && invoice._id ? <Button disabled={this.state.lineItems.length === 0} onClick={this.handleSendInvoice} bsStyle="primary">
+              Send Invoice
+            </Button> : ''}
+          </form>
+        </Col>
+      </Row>
     </div>);
   }
 }

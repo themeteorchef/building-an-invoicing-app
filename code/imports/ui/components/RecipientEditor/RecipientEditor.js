@@ -169,6 +169,7 @@ RecipientEditor.defaultProps = {
 
 RecipientEditor.propTypes = {
   recipient: PropTypes.object,
+  history: PropTypes.object.isRequired,
 };
 
 export default RecipientEditor;
