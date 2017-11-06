@@ -126,6 +126,8 @@ rateLimit({
   methods: [
     'invoices.insert',
     'invoices.update',
+    'invoices.send',
+    'invoices.pay',
   ],
   limit: 5,
   timeRange: 1000,
