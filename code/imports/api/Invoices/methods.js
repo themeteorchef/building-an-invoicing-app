@@ -108,10 +108,10 @@ Meteor.methods({
   },
   'invoices.pay': function invoicesPay(options) {
     check(options, Object);
-    const { invoiceId, amount, source } = options;
+    const { invoiceId, source } = options;
     const invoice = Invoices.findOne(invoiceId);
     stripe.charges.create({
-      amount,
+      amount: invoice.total,
       currency: 'usd',
       description: `Payment for Invoice #${invoice.number}: ${invoice.subject}`,
       source,

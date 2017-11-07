@@ -13,14 +13,14 @@ import loadStripeCheckout from '../../../modules/stripe-checkout';
 
 let checkout;
 
-const handleLoadCheckout = (invoiceId, amount) => {
+const handleLoadCheckout = (invoiceId) => {
   loadStripeCheckout(() => {
     checkout = StripeCheckout.configure({
       key: Meteor.settings.public.stripe,
       image: 'https://s3-us-west-2.amazonaws.com/cleverbeagle-assets/graphics/oauth.png',
       locale: 'auto',
       token(token) {
-        Meteor.call('invoices.pay', { invoiceId, amount, source: token.id }, (error) => {
+        Meteor.call('invoices.pay', { invoiceId, source: token.id }, (error) => {
           if (error) {
             Bert.alert(error.reason, 'danger');
           } else {
@@ -61,7 +61,7 @@ const calculateInvoiceTotal = (lineItems) => {
 };
 
 const StaticInvoice = ({ context, invoice, recipient }) => {
-  if (context === 'pay') handleLoadCheckout(invoice._id, invoice.total);
+  if (context === 'pay') handleLoadCheckout(invoice._id);
   const formattedInvoiceTotal = invoice ? formatAsCurrency(calculateInvoiceTotal(invoice.lineItems)) : 0;
   return (
     <InlineCSS
