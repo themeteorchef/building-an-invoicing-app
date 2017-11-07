@@ -6,6 +6,8 @@ In this three-part tutorial, we'll learn how to build a simple invoicing app tha
 
 [Part Two](https://themeteorchef.com/tutorials/building-an-invoicing-app-part-two)
 
+[Part Two](https://themeteorchef.com/tutorials/building-an-invoicing-app-part-two)
+
 [Read this tutorial on The Meteor Chef](https://themeteorchef.com/tutorials/building-an-invoicing-app-part-three)  
 
 [Download the source (.zip)](https://github.com/themeteorchef/building-an-invoicing-app/archive/master.zip)
